@@ -1,0 +1,19 @@
+<fieldset>
+  <legend>2Checkout</legend>
+
+  <table class="index">
+    <tr>
+      <th colspan="6">Payment Details - 2Checkout </th>
+    </tr>
+    <tr>
+      <td><label>Amount:</label></td>
+      <td>
+        <%= number_to_currency payment.amount %>
+      </td>
+      <td><label>Status:</label></td>
+      <td>
+        <%= payment.state %>
+      </td>
+    </tr>
+  </table>
+</fieldset>

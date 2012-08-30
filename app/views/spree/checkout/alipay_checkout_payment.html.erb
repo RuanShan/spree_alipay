@@ -1,0 +1,15 @@
+<% payment_service_for @order.number, @order.payment.preferred_partner,
+                            :service => :alipay,
+                            :html => { :id => 'payment-form', :method => :get } do |service| %>
+  <% service.total_fee 0.02 %>
+  <% service.seller :email => Spree::User.admin.first.email %>
+  <% service.notify_url url_for(:only_path => false, :action => 'alipay_notify') %>
+  <% service.return_url url_for(:only_path => false, :action => 'alipay_done') %>
+  <% service.body 'payment body' %>
+  <% service.charset "utf-8" %>
+  <% service.service ActiveMerchant::Billing::Integrations::Alipay::Helper::CREATE_DIRECT_PAY_BY_USER %>
+  <% service.payment_type 1 %>
+  <% service.subject 'payment subject' %>
+  <% service.sign %>
+<% end %>
+<%= button_to_function "Submit", "$('#payment-form>:first-child').remove();document.getElementById('payment-form').submit()" %>
