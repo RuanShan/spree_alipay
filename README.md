@@ -1,4 +1,4 @@
 spree_alipay
 ============
 
-Alipay, Tenpay for Spree
+Alipay, Tenpay and more chinese billing integration for Spree
