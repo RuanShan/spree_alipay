@@ -1,15 +1,35 @@
-<% payment_service_for @order.number, @order.payment.preferred_partner,
+<% 
+#CREATE_DIRECT_PAY_BY_USER 即时到帐接口 
+# total_fee
+#TRADE_CREATE_BY_BUYER 双功能
+# price
+# quantity
+# logistics_type（物流类型），
+# logistics_fee（物流费用），
+# logistics_payment（物流支付类型）
+alipay = @order.payment.payment_method
+using_direct_pay_service = alipay.preferred_using_direct_pay_service
+%>
+<% payment_service_for @order.number, alipay.preferred_partner,
                             :service => :alipay,
                             :html => { :id => 'payment-form', :method => :get } do |service| %>
-  <% service.total_fee 0.02 %>
-  <% service.seller :email => Spree::User.admin.first.email %>
+<% Rails.logger.debug "service="+service.form_fields.inspect %>
+<% if using_direct_pay_service %>
+  <% service.total_fee @order.total %>
+  <% service.service ActiveMerchant::Billing::Integrations::Alipay::Helper::CREATE_DIRECT_PAY_BY_USER %>
+<% else %>
+  <% service.price @order.item_total %>
+  <% service.quantity 1 %>
+  <% service.logistics :type=> 'EXPRESS', :fee=>@order.adjustment_total, :payment=>'BUYER_PAY'  %>
+  <% service.service ActiveMerchant::Billing::Integrations::Alipay::Helper::TRADE_CREATE_BY_BUYER %>
+<% end %>
+  <% service.seller :email => alipay.preferred_email %>
   <% service.notify_url url_for(:only_path => false, :action => 'alipay_notify') %>
   <% service.return_url url_for(:only_path => false, :action => 'alipay_done') %>
-  <% service.body 'payment body' %>
+  <% service.body "order_detail_description" %>
   <% service.charset "utf-8" %>
-  <% service.service ActiveMerchant::Billing::Integrations::Alipay::Helper::CREATE_DIRECT_PAY_BY_USER %>
   <% service.payment_type 1 %>
-  <% service.subject 'payment subject' %>
+  <% service.subject "订单编号:#{@order.number}" %>
   <% service.sign %>
 <% end %>
 <%= button_to_function "Submit", "$('#payment-form>:first-child').remove();document.getElementById('payment-form').submit()" %>
