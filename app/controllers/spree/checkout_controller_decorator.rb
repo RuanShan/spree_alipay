@@ -1,9 +1,9 @@
 #encoding: utf-8
 module Spree
   CheckoutController.class_eval do
-    PAYMENT_METHODS = [:alipay_notify, :alipay_done]#, :tenpay_notify, :tenpay_done
+    SKIP_PAYMENT_METHODS = [:alipay_notify, :alipay_done]#, :tenpay_notify, :tenpay_done
     before_filter :alipay_checkout_hook, :only => [:update]
-    skip_before_filter :load_order, :only=> PAYMENT_METHODS
+    skip_before_filter :load_order, :only=> SKIP_PAYMENT_METHODS
 
     def alipay_done
       payment_return = ActiveMerchant::Billing::Integrations::Alipay::Return.new(request.query_string)
@@ -54,11 +54,12 @@ Rails.logger.debug "payment_return=#{payment_return.inspect}"
     private
 
     def alipay_checkout_hook
+#logger.debug "----before alipay_checkout_hook"    
+#all_filters = self.class._process_action_callbacks
+#all_filters = all_filters.select{|f| f.kind == :before}
+#logger.debug "all before filers:"+all_filters.map(&:filter).inspect  
       return unless (params[:state] == "payment")
-      return unless params[:order][:payments_attributes]
-     
-
-     
+      return unless params[:order][:payments_attributes].present?
       payment_method = PaymentMethod.find(params[:order][:payments_attributes].first[:payment_method_id])
       if payment_method.kind_of?(BillingIntegration::Alipay)
       
@@ -73,9 +74,9 @@ Rails.logger.debug "payment_return=#{payment_return.inspect}"
        # gem activemerchant_patch_for_china is using it.
        # should not set when payment_method is updated, after restart server, it would be nil
        # TODO fork the activemerchant_patch_for_china, change constant to class variable
-       alipay_klass = ActiveMerchant::Billing::Integrations::Alipay::Helper
-       alipay_klass.send(:remove_const, :KEY) if alipay_klass.const_defined?(:KEY)
-       alipay_klass.const_set(:KEY, payment_method.preferred_sign)
+       alipay_helper_klass = ActiveMerchant::Billing::Integrations::Alipay::Helper
+       alipay_helper_klass.send(:remove_const, :KEY) if alipay_helper_klass.const_defined?(:KEY)
+       alipay_helper_klass.const_set(:KEY, payment_method.preferred_sign)
       
        #redirect_to(alipay_checkout_payment_order_checkout_url(@order, :payment_method_id => payment_method.id))
        redirect_to aplipay_full_service_url(@order, payment_method)
