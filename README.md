@@ -5,6 +5,10 @@ Alipay, Tenpay and more chinese billing integration for Spree
 
 for alipay, only support 双功能收款 和 即时到账收款。
 
+dependency
+----------
+  activemerchant
+  activemerchant_patch_for_china
 
 Testing
 -------
@@ -19,6 +23,7 @@ manual test
 Reference
 ---------
 支付宝常见问题目录与索引——有助于您的问题能够快速解决
+
 http://club.alipay.com/read.php?tid=8681712&fid=703#url_6
 
 https://github.com/Shopify/active_merchant/wiki/Contributing
