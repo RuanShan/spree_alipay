@@ -21,7 +21,9 @@ else
 end
 
 gem 'jquery-rails'
-gem 'spree', '1.2.0'
+gem 'spree', :github => "spree/spree", :branch => "1-2-stable"
+# referer to https://github.com/spree/spree/issues/2013
+gem 'spree_auth_devise', :github => "spree/spree_auth_devise", :branch => "1-2-stable"
 gem 'activemerchant', :require => 'active_merchant'
 gem 'activemerchant_patch_for_china' #support alipay
 
