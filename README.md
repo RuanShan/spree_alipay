@@ -12,6 +12,9 @@ dependency
 
 Testing
 -------
+create dummy to test
+bundle exec rake test_app
+
 manual test
 
   cd spec/dummy
