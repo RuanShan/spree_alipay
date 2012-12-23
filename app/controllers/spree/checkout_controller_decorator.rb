@@ -1,9 +1,10 @@
 #encoding: utf-8
 module Spree
   CheckoutController.class_eval do
-    SKIP_PAYMENT_METHODS = [:alipay_notify, :alipay_done]#, :tenpay_notify, :tenpay_done
+    cattr_accessor :skip_payment_methods
+    self.skip_payment_methods = [:alipay_notify, :alipay_done]#, :tenpay_notify, :tenpay_done
     before_filter :alipay_checkout_hook, :only => [:update]
-    skip_before_filter :load_order, :only=> SKIP_PAYMENT_METHODS
+    skip_before_filter :load_order, :only=> self.skip_payment_methods
 
     def alipay_done
       payment_return = ActiveMerchant::Billing::Integrations::Alipay::Return.new(request.query_string)
