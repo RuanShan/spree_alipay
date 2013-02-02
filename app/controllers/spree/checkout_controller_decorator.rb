@@ -6,7 +6,7 @@ module Spree
     before_filter :alipay_checkout_hook, :only => [:update]
     skip_before_filter :load_order,:ensure_valid_state, :only=> self.skip_payment_methods
     #invoid WARNING: Can't verify CSRF token authenticity
-    skip_before_filter :verify_authenticity_token :only => self.skip_payment_methods
+    skip_before_filter :verify_authenticity_token, :only => self.skip_payment_methods
     
     def alipay_done
       payment_return = ActiveMerchant::Billing::Integrations::Alipay::Return.new(request.query_string)
