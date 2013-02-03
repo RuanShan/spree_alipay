@@ -7,7 +7,9 @@ module Spree
     skip_before_filter :load_order,:ensure_valid_state, :only=> self.skip_payment_methods
     #invoid WARNING: Can't verify CSRF token authenticity
     skip_before_filter :verify_authenticity_token, :only => self.skip_payment_methods
-    
+    # these two filters is from spree_auth_devise
+    skip_before_filter :check_registration, :check_authorization, :only=> self.skip_payment_methods
+
     def alipay_done
       payment_return = ActiveMerchant::Billing::Integrations::Alipay::Return.new(request.query_string)
       #TODO check payment_return.success
@@ -89,8 +91,9 @@ Rails.logger.info "payment_return=#{payment_return.inspect}"
     def retrieve_order(order_number)
         @order = Spree::Order.find_by_number(order_number)
         if @order
-          @order.payment.try(:payment_method).try(:provider) #configures ActiveMerchant
+          #@order.payment.try(:payment_method).try(:provider) #configures ActiveMerchant
         end
+        @order
     end
     
     def valid_alipay_notification?(notification, account)
