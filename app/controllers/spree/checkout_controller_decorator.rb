@@ -97,7 +97,7 @@ Rails.logger.info "payment_return=#{payment_return.inspect}"
     end
     
     def valid_alipay_notification?(notification, account)
-      url = "https://www.alipay.com/cooperate/gateway.do?service=notify_verify"
+      url = "https://mapi.alipay.com/gateway.do?service=notify_verify"
       result = HTTParty.get(url, query: {partner: account, notify_id: notification.notify_id}).body
       result == 'true'
     end
