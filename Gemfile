@@ -1,7 +1,6 @@
-#source 'http://rubygems.org'
-source 'http://ruby.taobao.org/'
+source 'http://rubygems.org'
+#source 'http://ruby.taobao.org/'
 
-gem 'rails', '3.2.8'
 gem 'mysql2'
 
 group :assets do
@@ -21,9 +20,9 @@ else
 end
 
 gem 'jquery-rails'
-gem 'spree', :github => "spree/spree", :branch => "1-2-stable"
+gem 'spree', :github => "spree/spree", :branch => "2-0-stable"
 # referer to https://github.com/spree/spree/issues/2013
-gem 'spree_auth_devise', :github => "spree/spree_auth_devise", :branch => "1-2-stable"
+gem 'spree_auth_devise', :github => "spree/spree_auth_devise", :branch => "2-0-stable"
 gem 'activemerchant', :require => 'active_merchant'
 gem 'activemerchant_patch_for_china' #support alipay
 
