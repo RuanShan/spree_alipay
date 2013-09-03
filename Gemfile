@@ -19,6 +19,7 @@ else
   gem "ruby-debug19"
 end
 
+gem 'ruby-hmac' #http://ryanbigg.com/2009/07/no-such-file-to-load-hmac-sha1/
 gem 'jquery-rails'
 gem 'spree', :github => "spree/spree", :branch => "2-0-stable"
 # referer to https://github.com/spree/spree/issues/2013

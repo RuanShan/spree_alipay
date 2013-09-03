@@ -16,7 +16,7 @@ module Spree
       retrieve_order(payment_return.order)
 Rails.logger.info "payment_return=#{payment_return.inspect}"
       if @order.present?
-        @order.payment.complete!
+        @order.payments.first.complete!
         @order.state='complete'
         @order.finalize!
         session[:order_id] = nil
@@ -30,11 +30,11 @@ Rails.logger.info "payment_return=#{payment_return.inspect}"
     def alipay_notify
       notification = ActiveMerchant::Billing::Integrations::Alipay::Notification.new(request.raw_post)
       retrieve_order(notification.out_trade_no)
-      if @order.present? and notification.acknowledge() and valid_alipay_notification?(notification,@order.payment.payment_method.preferred_partner)
+      if @order.present? and notification.acknowledge() and valid_alipay_notification?(notification,@order.payments.first.payment_method.preferred_partner)
         if notification.complete?
-          @order.payment.complete!
+          @order.payment.first.complete!
         else
-          @order.payment.failure!
+          @order.payment.first.failure!
         end
         render text: "success" 
       else
