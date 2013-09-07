@@ -138,7 +138,7 @@ module Spree
       #url_for is controller instance method, so we have to keep this method in controller instead of model
       helper.notify_url url_for(:only_path => false, :action => 'alipay_notify')
       helper.return_url url_for(:only_path => false, :action => 'alipay_done')
-      helper.body "order_detail_description"
+      helper.body "八零配-汽车服务网"
       helper.charset "utf-8"
       helper.payment_type 1
       helper.subject "订单编号:#{order.number}"
