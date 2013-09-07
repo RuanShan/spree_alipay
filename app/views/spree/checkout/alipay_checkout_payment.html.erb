@@ -26,7 +26,7 @@ using_direct_pay_service = alipay.preferred_using_direct_pay_service
   <% service.seller :email => alipay.preferred_email %>
   <% service.notify_url url_for(:only_path => false, :action => 'alipay_notify') %>
   <% service.return_url url_for(:only_path => false, :action => 'alipay_done') %>
-  <% service.body "order_detail_description" %>
+  <% service.body "八零配-汽车服务网" %>
   <% service.charset "utf-8" %>
   <% service.payment_type 1 %>
   <% service.subject "订单编号:#{@order.number}" %>
