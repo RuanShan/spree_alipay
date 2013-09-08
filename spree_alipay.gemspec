@@ -2,10 +2,10 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_alipay'
-  s.version     = '1.0.0'
+  s.version     = '2.0.4'
   s.summary     = 'integrate china payment with spree'
   s.description = 'integrate china payment with spree, like alipay,tenpay'
-  s.required_ruby_version = '>= 1.8.7'
+  s.required_ruby_version = '>= 1.9.3'
 
   s.author            = 'qinghe'
   s.email             = 'areq22@gmail.com'
