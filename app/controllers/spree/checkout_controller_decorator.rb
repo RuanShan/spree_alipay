@@ -4,27 +4,10 @@ module Spree
     cattr_accessor :skip_payment_methods
     self.skip_payment_methods = [:alipay_notify, :alipay_done]#, :tenpay_notify, :tenpay_done
     before_filter :alipay_checkout_hook, :only => [:update]
-#    skip_before_filter :load_order,:ensure_valid_state, :only=> self.skip_payment_methods
     #invoid WARNING: Can't verify CSRF token authenticity
     skip_before_filter :verify_authenticity_token, :only => self.skip_payment_methods
     # these two filters is from spree_auth_devise
     skip_before_filter :check_registration, :check_authorization, :only=> self.skip_payment_methods
-
-    def load_order
-      if current_order
-        @order = current_order
-        redirect_to spree.cart_path and return unless @order
-      elsif request.query_string
-        payment_return = ActiveMerchant::Billing::Integrations::Alipay::Return.new(request.query_string)
-        @order = retrieve_order(payment_return.order)
-      end
-
-      if params[:state]
-        redirect_to checkout_state_path(@order.state) if @order.can_go_to_state?(params[:state]) && !skip_state_validation?
-        @order.state = params[:state]
-      end
-      setup_for_current_state
-    end
 
     def alipay_done
       payment_return = ActiveMerchant::Billing::Integrations::Alipay::Return.new(request.query_string)
@@ -73,7 +56,16 @@ module Spree
     end
 
     private
-
+    
+    def load_order_with_alipay_return      
+      if request.referer=~/alipay.com/
+        payment_return = ActiveMerchant::Billing::Integrations::Alipay::Return.new(request.query_string)
+        @current_order = retrieve_order(payment_return.order)                  
+      end      
+      load_order_without_alipay_return
+    end
+    alias_method_chain :load_order, :alipay_return
+    
     def alipay_checkout_hook
       #logger.debug "----before alipay_checkout_hook"    
       #all_filters = self.class._process_action_callbacks
@@ -138,7 +130,7 @@ module Spree
       #url_for is controller instance method, so we have to keep this method in controller instead of model
       helper.notify_url url_for(:only_path => false, :action => 'alipay_notify')
       helper.return_url url_for(:only_path => false, :action => 'alipay_done')
-      helper.body "八零配-汽车服务网"
+      helper.body order.products.collect(&:name).to_s #String(400) 
       helper.charset "utf-8"
       helper.payment_type 1
       helper.subject "订单编号:#{order.number}"
