@@ -13,7 +13,7 @@ GIT
 PATH
   remote: .
   specs:
-    spree_alipay (1.0.0)
+    spree_alipay (2.0.4)
       spree_core (~> 2.0.4)
 
 GEM
