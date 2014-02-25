@@ -141,5 +141,10 @@ module Spree
       url << helper.form_fields.collect{ |field, value| "#{field}=#{value}" }.join('&')
       URI.encode url # or URI::InvalidURIError    
     end
+    
+    #patch spree_auth_devise/checkout_controller_decorator
+    def skip_state_validation?
+      %w(registration update_registration).include?(params[:state])
+    end
   end
 end
