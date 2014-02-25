@@ -18,7 +18,11 @@ Installation
 3. Copy and execute migrations:
 
   rails g spree_alipay:install
-
+  
+  rake railties:install:migrations #if you upgraded spree, run this command
+  
+  rake db:migrate
+  
 dependency
 ----------
   activemerchant

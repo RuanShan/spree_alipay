@@ -12,6 +12,6 @@ namespace :spree_aplipay do
 end
 
 
-Rake::Task['spree_sample:load'].enhance do
-  Rake::Task['spree_aplipay:load_extra_payment_method'].invoke
-end
+#Rake::Task['spree_sample:load'].enhance do
+#  Rake::Task['spree_aplipay:load_extra_payment_method'].invoke
+#end
