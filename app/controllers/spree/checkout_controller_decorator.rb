@@ -57,17 +57,14 @@ module Spree
 
     private
     
-    def load_order_with_lock_with_alipay_return      
+    def load_order_with_alipay_return
       if request.referer=~/alipay.com/
         payment_return = ActiveMerchant::Billing::Integrations::Alipay::Return.new(request.query_string)
-        @current_order = retrieve_order(payment_return.order)                  
-      end      
-      load_order_with_lock_without_alipay_return
+        @current_order = retrieve_order(payment_return.order)
+      end
+      load_order_without_alipay_return
     end
-    
-    #because of PR below, load_order is renamed to load_order_with_lock
-    #https://github.com/spree/spree/commit/45eabed81e444af3ff1cf49891f64c85fdd8d546
-    alias_method_chain :load_order_with_lock, :alipay_return
+    alias_method_chain :load_order, :alipay_return
     
     def alipay_checkout_hook
       #logger.debug "----before alipay_checkout_hook"    
