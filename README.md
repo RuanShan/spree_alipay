@@ -5,10 +5,29 @@ Alipay, Tenpay and more chinese billing integration for Spree
 
 for alipay, only support 双功能收款 和 即时到账收款。
 
+Installation
+---------
+1. Add the following to your applications Gemfile
+
+  gem 'spree_alipay',   :github => "RuanShan/spree_alipay", :branch=>"2-0-stable"(or you perferred branch)
+
+2. Run bundler
+
+  bundle install
+
+3. Copy and execute migrations:
+
+  rails g spree_alipay:install
+  
+  rake railties:install:migrations #if you upgraded spree, run this command
+  
+  rake db:migrate
+  
 dependency
 ----------
   activemerchant
   activemerchant_patch_for_china
+
 
 Testing
 -------

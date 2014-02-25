@@ -7,6 +7,8 @@
 # logistics_type（物流类型），
 # logistics_fee（物流费用），
 # logistics_payment（物流支付类型）
+# body 商品描述 String(4 对一笔交易的具体描述信息。如果是多种商品,请将商品描述字符串累加传给body 
+
 alipay = @order.payment.payment_method
 using_direct_pay_service = alipay.preferred_using_direct_pay_service
 %>
@@ -26,7 +28,7 @@ using_direct_pay_service = alipay.preferred_using_direct_pay_service
   <% service.seller :email => alipay.preferred_email %>
   <% service.notify_url url_for(:only_path => false, :action => 'alipay_notify') %>
   <% service.return_url url_for(:only_path => false, :action => 'alipay_done') %>
-  <% service.body "order_detail_description" %>
+  <% service.body @order.products.collect(&:name).to_s %>
   <% service.charset "utf-8" %>
   <% service.payment_type 1 %>
   <% service.subject "订单编号:#{@order.number}" %>
