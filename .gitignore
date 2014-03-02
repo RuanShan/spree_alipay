@@ -3,3 +3,4 @@ spec/dummy
 db/sample/spree/payment_method.rb
 /.project
 Gemfile.lock
+db/samples
