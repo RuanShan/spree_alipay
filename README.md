@@ -31,10 +31,10 @@ dependency
 
 Testing
 -------
-create dummy to test
-bundle exec rake test_app
+  create dummy to test
+  bundle exec rake test_app
 
-manual test
+  manual test
 
   cd spec/dummy
   rake db:reset
