@@ -75,17 +75,14 @@ module Spree
       #all_filters = all_filters.select{|f| f.kind == :before}
       #logger.debug "all before filers:"+all_filters.map(&:filter).inspect 
       #TODO support step confirmation 
-Rails.logger.debug "--->checkout_hooking?"
       return unless @order.next_step_complete?
       return unless params[:order][:payments_attributes].present?
-Rails.logger.debug "--->before update_attributes"
       if @order.update_attributes(object_params) #it would create payments
         if params[:order][:coupon_code] and !params[:order][:coupon_code].blank? and @order.coupon_code.present?
           fire_event('spree.checkout.coupon_code_added', :coupon_code => @order.coupon_code)
         end
       end
       if pay_by_billing_integration?
-Rails.logger.debug "--->before handle_billing_integration"
         handle_billing_integration
       end
     end
