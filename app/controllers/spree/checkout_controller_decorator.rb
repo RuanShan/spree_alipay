@@ -3,7 +3,7 @@ module Spree
   CheckoutController.class_eval do
     cattr_accessor :skip_payment_methods
     self.skip_payment_methods = [:alipay_notify, :alipay_done]#, :tenpay_notify, :tenpay_done
-    before_filter :alipay_checkout_hook, :only => [:update]
+    before_filter :checkout_hook, :only => [:update]
     #invoid WARNING: Can't verify CSRF token authenticity
     skip_before_filter :verify_authenticity_token, :only => self.skip_payment_methods
     # these two filters is from spree_auth_devise
@@ -69,33 +69,24 @@ module Spree
     #https://github.com/spree/spree/commit/45eabed81e444af3ff1cf49891f64c85fdd8d546
     alias_method_chain :load_order_with_lock, :alipay_return
      
-    def alipay_checkout_hook
-      #logger.debug "----before alipay_checkout_hook"    
+    def checkout_hook
+      #logger.debug "----before checkout_hook"    
       #all_filters = self.class._process_action_callbacks
       #all_filters = all_filters.select{|f| f.kind == :before}
-      #logger.debug "all before filers:"+all_filters.map(&:filter).inspect  
-      return unless (params[:state] == "payment")
+      #logger.debug "all before filers:"+all_filters.map(&:filter).inspect 
+      #TODO support step confirmation 
+Rails.logger.debug "--->checkout_hooking?"
+      return unless @order.next_step_complete?
       return unless params[:order][:payments_attributes].present?
-      payment_method = PaymentMethod.find(params[:order][:payments_attributes].first[:payment_method_id])
-      if payment_method.kind_of?(BillingIntegration::Alipay)
-
-        if @order.update_attributes(object_params) #it would create payments
-          if params[:order][:coupon_code] and !params[:order][:coupon_code].blank? and @order.coupon_code.present?
-            fire_event('spree.checkout.coupon_code_added', :coupon_code => @order.coupon_code)
-          end
+Rails.logger.debug "--->before update_attributes"
+      if @order.update_attributes(object_params) #it would create payments
+        if params[:order][:coupon_code] and !params[:order][:coupon_code].blank? and @order.coupon_code.present?
+          fire_event('spree.checkout.coupon_code_added', :coupon_code => @order.coupon_code)
         end
-        # set_alipay_constant_if_needed 
-        # ActiveMerchant::Billing::Integrations::Alipay::KEY
-        # ActiveMerchant::Billing::Integrations::Alipay::ACCOUNT
-        # gem activemerchant_patch_for_china is using it.
-        # should not set when payment_method is updated, after restart server, it would be nil
-        # TODO fork the activemerchant_patch_for_china, change constant to class variable
-        alipay_helper_klass = ActiveMerchant::Billing::Integrations::Alipay::Helper
-        alipay_helper_klass.send(:remove_const, :KEY) if alipay_helper_klass.const_defined?(:KEY)
-        alipay_helper_klass.const_set(:KEY, payment_method.preferred_sign)
-
-        #redirect_to(alipay_checkout_payment_order_checkout_url(@order, :payment_method_id => payment_method.id))
-        redirect_to aplipay_full_service_url(@order, payment_method)
+      end
+      if pay_by_billing_integration?
+Rails.logger.debug "--->before handle_billing_integration"
+        handle_billing_integration
       end
     end
 
@@ -140,6 +131,34 @@ module Spree
       helper.sign
       url << helper.form_fields.collect{ |field, value| "#{field}=#{value}" }.join('&')
       URI.encode url # or URI::InvalidURIError    
+    end
+
+    def pay_by_billing_integration?
+      if @order.next_step_complete?
+        if @order.pending_payments.first.payment_method.kind_of? BillingIntegration 
+          return true
+        end
+      end
+      return false
+    end
+    
+    # handle all supported billing_integration
+    def handle_billing_integration      
+      payment_method = @order.pending_payments.first.payment_method
+      if payment_method.kind_of?(BillingIntegration::Alipay)
+        # set_alipay_constant_if_needed 
+        # ActiveMerchant::Billing::Integrations::Alipay::KEY
+        # ActiveMerchant::Billing::Integrations::Alipay::ACCOUNT
+        # gem activemerchant_patch_for_china is using it.
+        # should not set when payment_method is updated, after restart server, it would be nil
+        # TODO fork the activemerchant_patch_for_china, change constant to class variable
+        alipay_helper_klass = ActiveMerchant::Billing::Integrations::Alipay::Helper
+        alipay_helper_klass.send(:remove_const, :KEY) if alipay_helper_klass.const_defined?(:KEY)
+        alipay_helper_klass.const_set(:KEY, payment_method.preferred_sign)
+
+        #redirect_to(alipay_checkout_payment_order_checkout_url(@order, :payment_method_id => payment_method.id))
+        redirect_to aplipay_full_service_url(@order, payment_method)
+      end
     end
     
     #patch spree_auth_devise/checkout_controller_decorator
