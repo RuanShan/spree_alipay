@@ -34,8 +34,7 @@ Testing
 create dummy to test
 bundle exec rake test_app
 
-manual test
-
+  manual test
   cd spec/dummy
   rake db:reset
   rake spree_sample:load   # spree_sample/db/sample/* and spree_alipay/db/sample/* should be loaded both.
