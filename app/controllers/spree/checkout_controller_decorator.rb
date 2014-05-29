@@ -45,15 +45,15 @@ module Spree
     #https://github.com/flyerhzm/donatecn
     #demo for activemerchant_patch_for_china
     #since alipay_full_service_url is working, it is only for debug for now.
-    def alipay_checkout_payment
-      payment_method =  PaymentMethod.find(params[:payment_method_id])
-      #Rails.logger.debug "@payment_method=#{@payment_method.inspect}"       
-      Rails.logger.debug "alipay_full_service_url:"+aplipay_full_service_url(@order, payment_method)
-      # notice that load_order would call before_payment, if 'http==put' and 'order.state == payment', the payments will be deleted. 
-      # so we have to create payment again
-      @order.payments.create(:amount => @order.total, :payment_method_id => payment_method.id)
-      #redirect_to_alipay_gateway(:subject => "donatecn", :body => "donatecn", :amount => @donate.amount, :out_trade_no => "123", :notify_url => pay_fu.alipay_transactions_notify_url)
-    end
+    #def alipay_checkout_payment
+    #  payment_method =  PaymentMethod.find(params[:payment_method_id])
+    #  #Rails.logger.debug "@payment_method=#{@payment_method.inspect}"       
+    #  Rails.logger.debug "alipay_full_service_url:"+aplipay_full_service_url(@order, payment_method)
+    #  # notice that load_order would call before_payment, if 'http==put' and 'order.state == payment', the payments will be deleted. 
+    #  # so we have to create payment again
+    #  @order.payments.create(:amount => @order.total, :payment_method_id => payment_method.id)
+    #  #redirect_to_alipay_gateway(:subject => "donatecn", :body => "donatecn", :amount => @donate.amount, :out_trade_no => "123", :notify_url => pay_fu.alipay_transactions_notify_url)
+    #end
 
     private
     
@@ -79,10 +79,10 @@ Rails.logger.debug "--->checkout_hooking?"
       return unless @order.next_step_complete?
       return unless params[:order][:payments_attributes].present?
 Rails.logger.debug "--->before update_attributes"
-      if @order.update_attributes(object_params) #it would create payments
-        if params[:order][:coupon_code] and !params[:order][:coupon_code].blank? and @order.coupon_code.present?
-          fire_event('spree.checkout.coupon_code_added', :coupon_code => @order.coupon_code)
-        end
+      if @order.update_from_params(params, permitted_checkout_attributes) #it would create payments
+        #if params[:order][:coupon_code] and !params[:order][:coupon_code].blank? and @order.coupon_code.present?
+        #  fire_event('spree.checkout.coupon_code_added', :coupon_code => @order.coupon_code)
+        #end
       end
       if pay_by_billing_integration?
 Rails.logger.debug "--->before handle_billing_integration"
