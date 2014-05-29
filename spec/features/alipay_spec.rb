@@ -60,6 +60,7 @@ describe "Alipay", :js => true do
 
     Spree::Payment.last.source.transaction_id.should_not be_blank
   end
+=begin  
   it "includes adjustments in PayPal summary" do
     visit spree.root_path
     click_link 'iPad'
