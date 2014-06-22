@@ -14,7 +14,7 @@ PATH
   remote: .
   specs:
     spree_alipay (2.0.9)
-      spree_core (~> 2.0.9)
+      spree_core (~> 2.0.9.beta)
 
 GEM
   remote: http://ruby.taobao.org/
