@@ -245,7 +245,7 @@ describe "Alipay", :js => true do
         click_button "Refund"
         page.should have_content("PayPal refund unsuccessful (The partial refund amount is not valid)")
       end
-=end 
     end
   end
+=end 
 end

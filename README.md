@@ -43,8 +43,10 @@ bundle exec rake test_app
 
 Reference
 ---------
+https://b.alipay.com/order/techService.htm
+
 支付宝常见问题目录与索引——有助于您的问题能够快速解决
 
-http://club.alipay.com/read.php?tid=8681712&fid=703#url_6
+http://club.alipay.com/thread.php?fid=703
 
 https://github.com/Shopify/active_merchant/wiki/Contributing
