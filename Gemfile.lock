@@ -295,7 +295,7 @@ PLATFORMS
 
 DEPENDENCIES
   activemerchant
-  activemerchant_patch_for_china
+  activemerchant_patch_for_china (= 0.2.0)
   capybara (~> 2.1)
   coffee-rails
   database_cleaner
