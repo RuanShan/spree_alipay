@@ -1,5 +1,5 @@
 coverage
-spec/dummy
+spec/dummy*
 /.rvmrc
 db/sample/spree/payment_method.rb
 /.project
