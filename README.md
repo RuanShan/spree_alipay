@@ -7,8 +7,8 @@ for alipay, only support 双功能收款 和 即时到账收款。
 
 Sample
 ---------
-2-0-stable http://spree-alipay-sample.herokuapp.com
-2-2-stable http://spree-alipay-sample-220.herokuapp.com
+1. 2-0-stable http://spree-alipay-sample.herokuapp.com
+2. 2-2-stable http://spree-alipay-sample-220.herokuapp.com
 
 Installation
 ---------
