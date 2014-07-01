@@ -5,7 +5,9 @@ Alipay, Tenpay and more chinese billing integration for Spree
 
 for alipay, only support 双功能收款 和 即时到账收款。
 
-[online sample]http://spree-alipay-sample.herokuapp.com
+Sample
+--------
+http://spree-alipay-sample.herokuapp.com
 
 
 Installation
