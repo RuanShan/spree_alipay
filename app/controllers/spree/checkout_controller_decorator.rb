@@ -12,17 +12,19 @@ module Spree
     def alipay_done
       payment_return = ActiveMerchant::Billing::Integrations::Alipay::Return.new(request.query_string)
       #TODO check payment_return.success
-      retrieve_order(payment_return.order)
+      order = retrieve_order(payment_return.order)
 #      Rails.logger.info "payment_return=#{payment_return.inspect}"
-      if @order.present?
-        @order.payments.where(:state => ['processing', 'pending', 'checkout']).first.complete!
-        @order.state='complete'
-        @order.finalize!
+Rails.logger.debug "start order.next..."
+      order.next
+Rails.logger.debug "end order.next..."
+      if order.complete?        
+        flash.notice = Spree.t(:order_processed_successfully)
+        flash[:commerce_tracking] = "nothing special"
         session[:order_id] = nil
         redirect_to completion_route
       else
         #Strange, Failed trying to complete pending payment!
-        redirect_to edit_order_checkout_url(@order, :state => "payment")
+        redirect_to checkout_state_path( :payment )
       end
     end
 
@@ -89,10 +91,7 @@ module Spree
 
     def retrieve_order(order_number)
       @order = Spree::Order.find_by_number(order_number)
-      if @order
-        #@order.payment.try(:payment_method).try(:provider) #configures ActiveMerchant
-      end
-      @order
+      @order || raise(ActiveRecord::RecordNotFound)
     end
 
     def valid_alipay_notification?(notification, account)
