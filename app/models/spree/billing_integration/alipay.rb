@@ -11,6 +11,18 @@ module Spree
       ActiveMerchant::Billing::Integrations::Alipay
     end
     
-        
+    def authorize( money_in_cents, source, gateway_options )
+      
+    end  
+    
+      
+    def purchase( money_in_cents, source, gateway_options )
+      
+    end    
+
+    def capture( money_in_cents, source, gateway_options )
+      
+    end
+    
   end
 end
