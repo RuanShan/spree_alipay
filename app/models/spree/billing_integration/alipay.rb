@@ -9,6 +9,6 @@ module Spree
     def provider_class
       ActiveMerchant::Billing::Integrations::Alipay
     end
-       
+
   end
 end
