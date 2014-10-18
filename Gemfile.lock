@@ -14,7 +14,7 @@ PATH
   remote: .
   specs:
     spree_alipay (2.0.9)
-      spree_core (~> 2.0.9.beta)
+      spree_core (~> 2.0.9)
 
 GEM
   remote: http://ruby.taobao.org/
@@ -60,6 +60,7 @@ GEM
       multi_json (~> 1.0)
     acts_as_list (0.3.0)
       activerecord (>= 3.0)
+    alipay (0.1.0)
     arel (3.0.3)
     awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
@@ -255,6 +256,8 @@ GEM
       spree_api (= 2.0.9)
       spree_core (= 2.0.9)
       stringex (~> 1.5.1)
+    spree_sample (2.0.9)
+      spree_core (= 2.0.9)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -288,6 +291,7 @@ PLATFORMS
 DEPENDENCIES
   activemerchant
   activemerchant_patch_for_china (= 0.2.0)
+  alipay (~> 0.1.0)
   capybara (~> 2.1)
   coffee-rails
   database_cleaner
@@ -300,4 +304,5 @@ DEPENDENCIES
   simplecov
   spree_alipay!
   spree_auth_devise!
+  spree_sample (~> 2.0.9)
   sqlite3

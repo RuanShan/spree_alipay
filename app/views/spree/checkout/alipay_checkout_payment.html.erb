@@ -10,7 +10,7 @@
 # body 商品描述 String(4 对一笔交易的具体描述信息。如果是多种商品,请将商品描述字符串累加传给body 
 
 alipay = @order.payment.payment_method
-using_direct_pay_service = alipay.preferred_using_direct_pay_service
+using_direct_pay_service = false
 %>
 <% payment_service_for @order.number, alipay.preferred_partner,
                             :service => :alipay,

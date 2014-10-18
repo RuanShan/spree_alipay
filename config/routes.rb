@@ -1,17 +1,8 @@
 Spree::Core::Engine.routes.prepend do
-  resources :orders do
-    resource :checkout, :controller => 'checkout' do
-      member do
-        get :alipay_checkout_payment
-        get :alipay_done
-        post :alipay_notify
-      end
-    end
-  end
 
   # Add your extension routes here
-  match '/alipay_checkout/done/' => 'checkout#alipay_done', :as => :alipay_done
-  match '/alipay_checkout/notify/' => 'checkout#alipay_notify', :as => :alipay_notify
+  match '/alipay_status/done/' => 'alipay_status#alipay_done', :as => :alipay_done
+  match '/alipay_status/notify/' => 'alipay_status#alipay_notify', :as => :alipay_notify
 
   #fix issue
   #https://github.com/spree/spree_auth_devise/commit/bab2593f75909feeed3f53b54a63c2edd25f7ba5

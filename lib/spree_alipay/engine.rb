@@ -22,7 +22,7 @@ module SpreeAlipay
 ActionView::Base.send(:include, ActiveMerchant::Billing::Integrations::ActionViewHelper)
        
       app.config.spree.payment_methods += [
-        Spree::BillingIntegration::Alipay
+        Spree::BillingIntegration::AlipayDualfun
       ]
     end
   end
