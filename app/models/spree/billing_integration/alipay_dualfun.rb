@@ -22,7 +22,7 @@ module Spree
     end
     # disable source for now
     def source_required?
-      false
+      true
     end
     
     # payment source is required for processing
@@ -31,10 +31,8 @@ module Spree
     end
     
     def auto_capture?
-      # 对于 trade_create_by_buyer 标准双接口
-      # payment_method 不知道用户选择担保交易或者即时到账交易
-      # 在 alipay_done 中，根据用户支付类型，决定是否调用 capture
-      return false
+      # 对于担保交易， 保存支付状态在alipay_transaction中
+      return true
     end
     
     def authorize(amount, source, gateway_options)

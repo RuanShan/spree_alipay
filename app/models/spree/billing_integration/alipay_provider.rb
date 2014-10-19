@@ -18,6 +18,21 @@ module Spree
       end
     end
     
+    def send_goods_confirm( alipay_transaction )
+      options = {  :trade_no  => alipay_transaction.trade_no,
+        :logistics_name => 'dalianshops.com',
+        :transport_type => 'EXPRESS'
+      }
+      if trade_create_by_buyer?         
+        alipay_return = ::Alipay::Service.send_goods_confirm_by_platform(options)
+        Rails.logger.debug "alipay_return=#{alipay_return.inspect}"
+        alipay_xml_return = AlipayXmlReturn.new( alipay_return )
+        if alipay_xml_return.success?
+          alipay_transaction.update_attributes( :trade_status => alipay_xml_return.trade_status )
+        end        
+      end      
+    end
+    
     # 标准双接口
     def trade_create_by_buyer?
       self.service == 'trade_create_by_buyer'

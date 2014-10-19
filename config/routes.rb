@@ -9,5 +9,18 @@ Spree::Core::Engine.routes.prepend do
   get '/checkout/registration' => 'checkout#registration', :as => :checkout_registration
   put '/checkout/registration' => 'checkout#update_registration', :as => :update_checkout_registration
 
+  namespace :admin do
+    # Using :only here so it doesn't redraw those routes
+    resources :orders, :only => [] do
+      resources :payments, :only => [] do
+        member do
+          get 'paypal_refund'
+          post 'paypal_refund'
+        end
+      end
+    end
+  end
+
+
 end
 
