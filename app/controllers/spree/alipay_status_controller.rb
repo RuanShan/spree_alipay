@@ -11,19 +11,13 @@ module Spree
       # 即时到账的交易状态变更顺序依次是:
       #  WAIT_BUYER_PAY→TRADE_FINISHED。
       # payment.state always :complete for both service, payment.source store more detail
-       
       alipay_transaction = AlipayTransaction.create_from_postback payment_return.params     
       payment = order.pending_payments.last
       payment.source = alipay_transaction
       payment.save!
-      
       # it require pending_payments to process_payments!
-Rails.logger.debug "..........start order.next ........"      
       order.next
-Rails.logger.debug "..........end order.next ........"      
-      # Rails.logger.info "payment_return=#{payment_return.inspect}"
       if order.complete?
-        
         #copy from spree/frontend/checkout_controller
         session[:order_id] = nil
         flash.notice = Spree.t(:order_processed_successfully)

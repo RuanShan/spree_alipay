@@ -25,7 +25,6 @@ module Spree
       }
       if trade_create_by_buyer?         
         alipay_return = ::Alipay::Service.send_goods_confirm_by_platform(options)
-        Rails.logger.debug "alipay_return=#{alipay_return.inspect}"
         alipay_xml_return = AlipayXmlReturn.new( alipay_return )
         if alipay_xml_return.success?
           alipay_transaction.update_attributes( :trade_status => alipay_xml_return.trade_status )
