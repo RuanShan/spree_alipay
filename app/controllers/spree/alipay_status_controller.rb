@@ -19,9 +19,9 @@ module Spree
       #end
       
       # it require pending_payments to process_payments!
-      Rails.logger.debug "starting order.next...." 
+Rails.logger.debug "..........start order.next ........"      
       order.next
-      Rails.logger.debug "end order.next...." 
+Rails.logger.debug "..........end order.next ........"      
       # Rails.logger.info "payment_return=#{payment_return.inspect}"
       if order.complete?
         # 担 保交易的交易状态变更顺序依次是:

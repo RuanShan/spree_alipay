@@ -12,6 +12,7 @@ gem 'activemerchant_patch_for_china', '0.2.0' #support china billing_integration
 gem 'alipay', '~> 0.1.0' # better payment_method class
 
 # Provides basic authentication functionality for testing parts of your engine
-gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '2-0-stable'
-
+group :development do
+  gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '2-0-stable'
+end
 gemspec

@@ -40,33 +40,6 @@ module Spree
       alipay.provider.url( options )
     end
     
-    def aplipay_full_service_url_original( order, alipay)
-      raise 'require BillingIntegration Alipay' unless alipay.is_a? @alipay_base_class
-      url = ActiveMerchant::Billing::Integrations::Alipay.service_url+'?'
-      helper = ActiveMerchant::Billing::Integrations::Alipay::Helper.new(order.number, alipay.preferred_partner)
-      using_dualfun_service = alipay.kind_of? @alipay_dualfun_class
-
-      if using_dualfun_service
-        helper.price order.item_total
-        helper.quantity 1
-        helper.logistics :type=> 'EXPRESS', :fee=>order.adjustment_total, :payment=>'BUYER_PAY' 
-      else
-        helper.total_fee order.total
-      end
-      helper.service alipay.service
-      helper.seller :email => alipay.preferred_email
-      #url_for is controller instance method, so we have to keep this method in controller instead of model
-      helper.notify_url url_for(:only_path => false, :action => 'alipay_notify')
-      helper.return_url url_for(:only_path => false, :action => 'alipay_done')
-      helper.body order.products.collect(&:name).to_s #String(400) 
-      helper.charset "utf-8"
-      helper.payment_type 1
-      helper.subject "订单编号:#{order.number}"
-      helper.sign
-      url << helper.form_fields.collect{ |field, value| "#{field}=#{value}" }.join('&')
-      URI.encode url # or URI::InvalidURIError    
-    end
-
     # handle all supported billing_integration
     def handle_billing_integration      
       if @order.update_attributes(object_params)
