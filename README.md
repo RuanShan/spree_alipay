@@ -44,7 +44,7 @@ Testing
 
   cd spec/dummy
   rake db:reset
-  rake spree_theme:load
+  rake spree_sample:load
 
 
 Reference
