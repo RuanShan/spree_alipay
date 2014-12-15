@@ -18,9 +18,8 @@ module SpreeAlipay
     config.to_prepare &method(:activate).to_proc
     
     config.after_initialize do |app|
-      require 'active_merchant/billing/integrations/action_view_helper'
-ActionView::Base.send(:include, ActiveMerchant::Billing::Integrations::ActionViewHelper)
-       
+      require 'offsite_payments/action_view_helper'
+      ActionView::Base.send(:include, OffsitePayments::ActionViewHelper)       
       app.config.spree.payment_methods += [
         Spree::BillingIntegration::Alipay
       ]

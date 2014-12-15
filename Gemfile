@@ -13,6 +13,7 @@ group :test,:development do
   gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '2-4-stable'
 end
 
-gem 'activemerchant', :require => 'active_merchant'
-gem 'activemerchant_patch_for_china', '0.2.0' #support alipay
+#gem 'activemerchant', :require => 'active_merchant'
+gem 'offsite_payments'
+gem 'activemerchant_patch_for_china', github:'RuanShan/activemerchant_patch_for_china', branch:'for_offsite_payments'
 gemspec

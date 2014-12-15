@@ -30,16 +30,16 @@ Installation
   
 dependency
 ----------
-  activemerchant
+  offsite_payments
   activemerchant_patch_for_china
 
 
 Testing
 -------
-  create dummy to test
+  #create dummy to test
   bundle exec rake test_app
 
-  manual test
+  # manual test
   # spree_sample/db/sample/* and spree_alipay/db/sample/* should be loaded both.   
   # task spree_sample:load is enhanced by spree_alipay/lib/tasks/sample.rake
 
