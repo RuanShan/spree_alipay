@@ -123,6 +123,7 @@ GEM
     acts_as_list (0.3.0)
       activerecord (>= 3.0)
     addressable (2.3.6)
+    alipay (0.3.0)
     arel (5.0.1.20140414130214)
     awesome_nested_set (3.0.1)
       activerecord (>= 4.0.0, < 5)
@@ -341,6 +342,7 @@ PLATFORMS
 
 DEPENDENCIES
   activemerchant_patch_for_china!
+  alipay
   capybara (~> 2.4)
   coffee-rails
   database_cleaner
