@@ -135,7 +135,7 @@ Rails.logger.debug "--->before handle_billing_integration"
 
     def pay_by_billing_integration?
       if @order.next_step_complete?
-        if @order.pending_payments.first.payment_method.kind_of? BillingIntegration 
+        if @order.unprocessed_payments.first.payment_method.kind_of? BillingIntegration 
           return true
         end
       end
@@ -144,7 +144,7 @@ Rails.logger.debug "--->before handle_billing_integration"
     
     # handle all supported billing_integration
     def handle_billing_integration      
-      payment_method = @order.pending_payments.first.payment_method
+      payment_method = @order.unprocessed_payments.first.payment_method
       if payment_method.kind_of?(BillingIntegration::Alipay)
         # set_alipay_constant_if_needed 
         # ActiveMerchant::Billing::Integrations::Alipay::KEY
