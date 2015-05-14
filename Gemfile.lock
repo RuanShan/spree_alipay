@@ -78,6 +78,7 @@ PATH
   remote: .
   specs:
     spree_alipay (2.4.0)
+      alipay (~> 0.3.0)
       spree_core (~> 2.4.0)
 
 GEM

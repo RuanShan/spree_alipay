@@ -1,7 +1,7 @@
 module Spree
   class AlipayTransaction < ActiveRecord::Base
     has_many :payments, :as => :source
-    attr_accessible :trade_no, :buyer_email, :trade_status, :total_fee, :refund_status, :payment_type
+    #attr_accessible :trade_no, :buyer_email, :trade_status, :total_fee, :refund_status, :payment_type
     def actions
       []
     end
