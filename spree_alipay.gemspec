@@ -2,13 +2,13 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_alipay'
-  s.version     = '2.4.0'
+  s.version     = '3.0.0'
   s.summary     = 'integrate china payment with spree'
   s.description = 'integrate china payment with spree, like alipay,tenpay'
-  s.required_ruby_version = '>= 1.9.3'
+  s.required_ruby_version = '>= 2.0.0'
 
   s.author            = 'qinghe'
-  s.email             = 'areq22@gmail.com'
+  s.email             = 'areq22@aliyun.com'
   s.homepage          = 'http://www.github.com/RuanShan/spree_alipay'
 
   #s.files         = `git ls-files`.split("\n")
@@ -16,8 +16,8 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_dependency 'spree_core', '~> 2.4.0'
-  s.add_dependency 'alipay', '~> 0.3.0'
+  s.add_dependency 'spree_core', '~> 3.0.0'
+  s.add_dependency 'alipay', '~> 0.7.0'
 
   s.add_development_dependency 'capybara', '~> 2.4'
   s.add_development_dependency 'coffee-rails'

@@ -5,7 +5,7 @@ module Spree
     def initialize( options = {})
       ::Alipay.pid = options[:partner]
       ::Alipay.key = options[:sign]
-      ::Alipay.seller_email = options[:email]
+      #::Alipay.seller_email = options[:email]
       self.service =  options[:service]
     end  
     

@@ -30,7 +30,7 @@ module Spree
                   :logistics_type=> 'EXPRESS',
                   :logistics_fee=>order.adjustment_total, 
                   :logistics_payment=>'BUYER_PAY',
-                  :seller_email => alipay.preferred_email,
+                  :seller_id => alipay.preferred_partner,
                   :notify_url => url_for(:only_path => false, :controller=>'alipay_status', :action => 'alipay_notify'),
                   :return_url => url_for(:only_path => false, :controller=>'alipay_status', :action => 'alipay_done'),
                   :body => order.products.collect(&:name).to_s,  #String(400)                  
@@ -46,17 +46,6 @@ module Spree
         payment_method = get_payment_method(  )
         if payment_method.kind_of?(@alipay_base_class)
           
-          # set_alipay_constant_if_needed 
-          # ActiveMerchant::Billing::Integrations::Alipay::KEY
-          # ActiveMerchant::Billing::Integrations::Alipay::ACCOUNT
-          # gem activemerchant_patch_for_china is using it.
-          # should not set when payment_method is updated, after restart server, it would be nil
-          # TODO fork the activemerchant_patch_for_china, change constant to class variable
-          alipay_helper_klass = ActiveMerchant::Billing::Integrations::Alipay::Helper
-          alipay_helper_klass.send(:remove_const, :KEY) if alipay_helper_klass.const_defined?(:KEY)
-          alipay_helper_klass.const_set(:KEY, payment_method.preferred_sign)
-  
-          #redirect_to(alipay_checkout_payment_order_checkout_url(@order, :payment_method_id => payment_method.id))
           redirect_to aplipay_full_service_url(@order, payment_method)
         end
       else
