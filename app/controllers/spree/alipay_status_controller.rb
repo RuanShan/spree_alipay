@@ -34,9 +34,9 @@ module Spree
       alipay_payment = get_alipay_payment( order )     
       if alipay_payment.payment_method.provider.verify?( request.request_parameters )
         complete_order( order )
-        render text: "success"
+        render plain: "success"
       else
-        render text: "fail"         
+        render plain: "fail"         
       end
     end
 
