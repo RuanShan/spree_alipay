@@ -47,12 +47,13 @@ module Spree
     end    
 
     def get_alipay_payment( order )
-      order.unprocessed_payments.last
+      #use payment instead of unprocessed_payments, order may be completed.
+      order.payments.last
     end
     
     def complete_order( order )
       unless order.complete?
-        alipay_payment = get_alipay_payment( order )
+        alipay_payment = order.unprocessed_payments.last
         # payment.state always :complete for both service, payment.source store more detail
         alipay_transaction = AlipayTransaction.create_from_postback params     
         alipay_payment.source = alipay_transaction
