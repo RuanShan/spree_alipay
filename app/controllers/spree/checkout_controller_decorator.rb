@@ -6,8 +6,8 @@ module Spree
     private
         
     def checkout_hook
-      @alipay_base_class = Spree::BillingIntegration::AlipayBase
-      @alipay_dualfun_class = Spree::BillingIntegration::AlipayDualfun
+      @alipay_base_class = Spree::Gateway::AlipayBase
+      @alipay_dualfun_class = Spree::Gateway::AlipayDualfun
       #logger.debug "----before checkout_hook"    
       #all_filters = self.class._process_action_callbacks
       #all_filters = all_filters.select{|f| f.kind == :before}

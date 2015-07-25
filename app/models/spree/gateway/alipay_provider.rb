@@ -1,5 +1,7 @@
+require 'alipay'
+
 module Spree
-  class BillingIntegration::AlipayProvider
+  class Gateway::AlipayProvider
     attr_accessor :service
    
     def initialize( options = {})

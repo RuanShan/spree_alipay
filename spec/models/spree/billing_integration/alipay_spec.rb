@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Spree::BillingIntegration::Alipay do
+describe Spree::Gateway::Alipay do
  
   it "should be valid" do
     

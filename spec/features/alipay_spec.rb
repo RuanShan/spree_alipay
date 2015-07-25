@@ -6,7 +6,7 @@ require 'spec_helper'
 describe "Alipay", :js => true do
   let!(:product) { FactoryGirl.create(:product, :name => 'iPad') }
   before do
-    @gateway = Spree::BillingIntegration::Alipay.create!({
+    @gateway = Spree::Gateway::Alipay.create!({
       preferred_email: 'sandbox_areq22@aliyun.com',
       preferred_partner: '2088002627298374',
       preferred_sign: 'f4y25qc539qakg734vn2jpqq6gmybxoz',
