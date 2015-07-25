@@ -18,6 +18,8 @@ module Spree
     def url( options )
       if trade_create_by_buyer?
         ::Alipay::Service.trade_create_by_buyer_url( options )
+      else 
+        ::Alipay::Service.create_partner_trade_by_buyer_url( options )
       end
     end
     

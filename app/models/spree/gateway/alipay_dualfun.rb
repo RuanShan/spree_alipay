@@ -1,4 +1,3 @@
-
 module Spree
     # use NewAlipay instead of BillingIntegration::Alipay
     # original name would cause 'toplevel constant Alipay referenced', since we are using https://github.com/chloerei/alipay
