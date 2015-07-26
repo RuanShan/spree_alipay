@@ -28,7 +28,7 @@ module Spree
         :logistics_name => 'dalianshops.com',
         :transport_type => 'EXPRESS'
       }
-      if trade_create_by_buyer?         
+      if trade_create_by_buyer? || create_partner_trade_by_buyer?   
         alipay_return = ::Alipay::Service.send_goods_confirm_by_platform(options)
         alipay_xml_return = AlipayXmlReturn.new( alipay_return )
         if alipay_xml_return.success?
