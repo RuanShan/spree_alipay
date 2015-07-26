@@ -1,6 +1,8 @@
 #inspired by https://github.com/spree-contrib/spree_skrill
 module Spree
   class AlipayStatusController < StoreController
+    #fixes Action::Controller::InvalidAuthenticityToken error on alipay_notify 
+    skip_before_action :verify_authenticity_token
       
     def alipay_done
       # alipay acount could vary in each store. 
@@ -64,6 +66,5 @@ module Spree
         order.next
       end
     end
-       
   end
 end
