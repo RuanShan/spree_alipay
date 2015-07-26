@@ -15,6 +15,7 @@ Installation
 1. Add the following to your applications Gemfile
 
    gem 'spree_alipay',   :github => "RuanShan/spree_alipay", :branch=>"2-0-stable"(or you perferred branch)
+   gem 'activemerchant_patch_for_china', github:'RuanShan/activemerchant_patch_for_china', branch:'for_offsite_payments'
 
 2. Run bundler
 

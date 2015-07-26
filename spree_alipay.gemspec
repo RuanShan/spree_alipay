@@ -18,6 +18,8 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'spree_core', '~> 3.0.0'
   s.add_dependency 'alipay', '~> 0.7.0'
+  s.add_dependency 'offsite_payments'
+  s.add_dependency 'ruby-hmac'
 
   s.add_development_dependency 'capybara', '~> 2.4'
   s.add_development_dependency 'coffee-rails'
