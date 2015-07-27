@@ -6,8 +6,8 @@ module Spree
     private
         
     def checkout_hook
-      @alipay_base_class = Spree::BillingIntegration::AlipayBase
-      @alipay_dualfun_class = Spree::BillingIntegration::AlipayDualfun
+      @alipay_base_class = Spree::Gateway::AlipayBase
+      @alipay_dualfun_class = Spree::Gateway::AlipayDualfun
       #logger.debug "----before checkout_hook"    
       #all_filters = self.class._process_action_callbacks
       #all_filters = all_filters.select{|f| f.kind == :before}
@@ -28,7 +28,7 @@ module Spree
                   :price => order.item_total, 
                   :quantity => 1,
                   :logistics_type=> 'EXPRESS',
-                  :logistics_fee=>order.adjustment_total, 
+                  :logistics_fee => order.shipments.to_a.sum(&:cost), 
                   :logistics_payment=>'BUYER_PAY',
                   :seller_id => alipay.preferred_partner,
                   :notify_url => url_for(:only_path => false, :controller=>'alipay_status', :action => 'alipay_notify'),

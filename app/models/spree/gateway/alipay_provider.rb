@@ -1,5 +1,7 @@
+require 'alipay'
+
 module Spree
-  class BillingIntegration::AlipayProvider
+  class Gateway::AlipayProvider
     attr_accessor :service
    
     def initialize( options = {})
@@ -16,6 +18,8 @@ module Spree
     def url( options )
       if trade_create_by_buyer?
         ::Alipay::Service.trade_create_by_buyer_url( options )
+      else 
+        ::Alipay::Service.create_partner_trade_by_buyer_url( options )
       end
     end
     
@@ -24,7 +28,7 @@ module Spree
         :logistics_name => 'dalianshops.com',
         :transport_type => 'EXPRESS'
       }
-      if trade_create_by_buyer?         
+      if trade_create_by_buyer? || create_partner_trade_by_buyer?   
         alipay_return = ::Alipay::Service.send_goods_confirm_by_platform(options)
         alipay_xml_return = AlipayXmlReturn.new( alipay_return )
         if alipay_xml_return.success?

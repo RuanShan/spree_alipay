@@ -3,7 +3,7 @@ spree_alipay
 
 Alipay, Tenpay and more chinese billing integration for Spree
 
-for alipay, only support 双功能收款 和 即时到账收款。
+for alipay, only support 双功能收款 和 即时到账收款, 担保交易收款。
 
 Sample
 ---------
@@ -14,11 +14,12 @@ Installation
 ---------
 1. Add the following to your applications Gemfile
 
-  gem 'spree_alipay',   :github => "RuanShan/spree_alipay", :branch=>"2-0-stable"(or you perferred branch)
+   gem 'spree_alipay',   :github => "RuanShan/spree_alipay", :branch=>"2-0-stable"(or you perferred branch)
+   gem 'activemerchant_patch_for_china', github:'RuanShan/activemerchant_patch_for_china', branch:'for_offsite_payments'
 
 2. Run bundler
 
-  bundle install
+   bundle install
 
 3. Copy and execute migrations:
 
@@ -33,6 +34,14 @@ dependency
   offsite_payments
   activemerchant_patch_for_china
 
+Notes 
+----------
+  For Alipay 担保交易收款 "Escrow Account", use Spree::Gateway::AlipayEscrow
+  this will redirect you to https://tradeexprod.alipay.com/cooperate/createPartnerTradeByBuyer.htm
+
+
+  For Alipay 双功能收款 和 即时到账收, use Spree::Gateway::AlipayDualfun, this
+  will redirect you to https://tradeexprod.alipay.com/cooperate/createTradeByBuyer.htm
 
 Testing
 -------

@@ -21,7 +21,7 @@ module SpreeAlipay
       require 'offsite_payments/action_view_helper'
       ActionView::Base.send(:include, OffsitePayments::ActionViewHelper)       
       app.config.spree.payment_methods += [
-        Spree::BillingIntegration::AlipayDualfun
+        Spree::Gateway::AlipayDualfun, Spree::Gateway::AlipayEscrow
       ]
     end
   end

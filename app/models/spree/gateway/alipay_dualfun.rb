@@ -1,8 +1,7 @@
-
 module Spree
     # use NewAlipay instead of BillingIntegration::Alipay
     # original name would cause 'toplevel constant Alipay referenced', since we are using https://github.com/chloerei/alipay
-    class BillingIntegration::AlipayDualfun < BillingIntegration::AlipayBase
+    class Gateway::AlipayDualfun < Gateway::AlipayBase
       preference :partner, :string
       preference :sign, :string
       #preference :email, :string
@@ -10,7 +9,7 @@ module Spree
       #attr_accessible :preferred_server, :preferred_test_mode, :preferred_email, :preferred_partner, :preferred_sign
        
       def provider_class
-        Spree::BillingIntegration::AlipayProvider
+        Spree::Gateway::AlipayProvider
       end
   
       def provider
