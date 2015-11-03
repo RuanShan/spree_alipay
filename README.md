@@ -15,7 +15,7 @@ Installation
 1. Add the following to your applications Gemfile
 
    gem 'spree_alipay',   :github => "RuanShan/spree_alipay", :branch=>"2-0-stable"(or you perferred branch)
-   gem 'activemerchant_patch_for_china', github:'RuanShan/activemerchant_patch_for_china', branch:'for_offsite_payments'
+
 
 2. Run bundler
 
@@ -24,17 +24,16 @@ Installation
 3. Copy and execute migrations:
 
   rails g spree_alipay:install
-  
+
   rake railties:install:migrations #if you upgraded spree, run this command
-  
+
   rake db:migrate
-  
+
 dependency
 ----------
-  offsite_payments
-  activemerchant_patch_for_china
 
-Notes 
+
+Notes
 ----------
   For Alipay 担保交易收款 "Escrow Account", use Spree::Gateway::AlipayEscrow
   this will redirect you to https://tradeexprod.alipay.com/cooperate/createPartnerTradeByBuyer.htm
@@ -49,7 +48,7 @@ Testing
   bundle exec rake test_app
 
   # manual test
-  # load spree_sample and add your alipay paymethod account manually.   
+  # load spree_sample and add your alipay paymethod account manually.
 
   cd spec/dummy
   rake db:reset

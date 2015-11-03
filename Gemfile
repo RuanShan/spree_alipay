@@ -1,5 +1,5 @@
 #source 'http://rubygems.org'
-source 'http://ruby.taobao.org/'
+source 'https://ruby.taobao.org/'
 
 
 group :test,:development do
@@ -8,8 +8,7 @@ group :test,:development do
   # Provides basic authentication functionality for testing parts of your engine
   gem 'spree', github: 'spree/spree', branch: '3-0-stable'
   gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '3-0-stable'
-  
-  gem 'activemerchant_patch_for_china', github:'RuanShan/activemerchant_patch_for_china', branch:'for_offsite_payments'
+
 end
 
 gemspec

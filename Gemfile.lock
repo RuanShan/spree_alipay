@@ -1,11 +1,4 @@
 GIT
-  remote: git://github.com/RuanShan/activemerchant_patch_for_china.git
-  revision: ead71ea3bb7f67eef6f95036dfdb4b58686773eb
-  branch: for_offsite_payments
-  specs:
-    activemerchant_patch_for_china (0.2.0)
-
-GIT
   remote: git://github.com/spree/spree.git
   revision: 37807f44469a3ad3c58d4b5f77bf509148043cfa
   branch: 3-0-stable
@@ -83,12 +76,11 @@ PATH
   specs:
     spree_alipay (3.0.0)
       alipay (~> 0.7.0)
-      offsite_payments
       ruby-hmac
       spree_core (~> 3.0.0)
 
 GEM
-  remote: http://ruby.taobao.org/
+  remote: https://ruby.taobao.org/
   specs:
     actionmailer (4.2.1)
       actionpack (= 4.2.1)
@@ -109,9 +101,6 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.1)
-    active_utils (3.0.0)
-      activesupport (>= 3.2)
-      i18n
     activejob (4.2.1)
       activesupport (= 4.2.1)
       globalid (>= 0.3.0)
@@ -238,14 +227,6 @@ GEM
     multi_xml (0.5.5)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
-    offsite_payments (2.1.0)
-      actionpack (>= 3.2.20, < 5.0.0)
-      active_utils (~> 3.0.0)
-      activesupport (>= 3.2.14, < 5.0.0)
-      builder (>= 2.1.2, < 4.0.0)
-      i18n (~> 0.5)
-      money (>= 5.0.0, < 7.0.0)
-      nokogiri (~> 1.4)
     orm_adapter (0.5.0)
     paperclip (4.2.1)
       activemodel (>= 3.0.0)
@@ -390,7 +371,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activemerchant_patch_for_china!
   capybara (~> 2.4)
   coffee-rails
   database_cleaner
