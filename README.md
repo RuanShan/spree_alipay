@@ -23,11 +23,11 @@ Installation
 3. Copy and execute migrations:
 
   rails g spree_alipay:install
-  
+
   rake railties:install:migrations #if you upgraded spree, run this command
-  
+
   rake db:migrate
-  
+
 dependency
 ----------
   offsite_payments
@@ -40,7 +40,7 @@ Testing
   bundle exec rake test_app
 
   # manual test
-  # load spree_sample and add your alipay paymethod account manually.   
+  # load spree_sample and add your alipay paymethod account manually.
 
   cd spec/dummy
   rake db:reset
@@ -51,6 +51,6 @@ Reference
 ---------
 支付宝常见问题目录与索引——有助于您的问题能够快速解决
 
-http://club.alipay.com/read.php?tid=8681712&fid=703#url_6
+http://doc.open.alipay.com/
 
 https://github.com/Shopify/active_merchant/wiki/Contributing
