@@ -19,19 +19,10 @@ module Spree
       def service
         service_enum.trade_create_by_buyer
       end
-      # disable source for now
-      def source_required?
-        true
-      end
-
-      # payment source is required for processing
-      def payment_source_class
-        AlipayTransaction
-      end
 
       def auto_capture?
-        # 对于担保交易， 保存支付状态在alipay_transaction中
-        return true
+        # 
+        return false
       end
 
       def authorize(amount, source, gateway_options)
