@@ -59,6 +59,4 @@ Reference
 ---------
 支付宝常见问题目录与索引——有助于您的问题能够快速解决
 
-http://club.alipay.com/read.php?tid=8681712&fid=703#url_6
-
-https://github.com/Shopify/active_merchant/wiki/Contributing
+  [Alipay Official Doc]( http://doc.open.alipay.com/doc2/alipayDocIndex.htm "Alipay Doc")

@@ -6,21 +6,16 @@ module Spree
     private
 
     def checkout_hook
-
       @alipay_base_class = Spree::Gateway::AlipayBase
-      @alipay_dualfun_class = Spree::Gateway::AlipayDualfun
-  logger.debug "----before checkout_hook"
       #all_filters = self.class._process_action_callbacks
       #all_filters = all_filters.select{|f| f.kind == :before}
       #logger.debug "all before filers:"+all_filters.map(&:filter).inspect
       return unless @order.next_step_complete?
       #in confirm step, only param is  {"state"=>"confirm"}
       payment_method = get_payment_method_by_params(  )
-  logger.debug "----before payment_method #{payment_method.inspect}"
       if payment_method.kind_of?( @alipay_base_class )
         handle_billing_integration
       end
-logger.debug "----end checkout_hook"
     end
 
     def aplipay_full_service_url( order, alipay)
@@ -45,7 +40,6 @@ logger.debug "----end checkout_hook"
 
     # handle all supported billing_integration
     def handle_billing_integration
-logger.debug "----in handle_billing_integration"
       if @order.update_from_params(params, permitted_checkout_attributes, request.headers.env)
         payment_method = get_payment_method_by_order( @order )
         if payment_method.kind_of?(@alipay_base_class)
