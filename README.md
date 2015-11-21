@@ -1,9 +1,9 @@
 spree_alipay
 ============
 
-Alipay, Tenpay and more chinese billing integration for Spree
+Alipay for Spree
 
-for alipay, only support 双功能收款 和 即时到账收款, 担保交易收款。
+Now support 双功能收款 和 即时到账收款, 担保交易收款。
 
 Sample
 ---------
@@ -32,6 +32,7 @@ Installation
 Dependency
 ----------
   gem spree  https://www.github.com/spree/spree
+
   gem alipay https://www.github.com/chloerei/alipay
 
 Notes
@@ -46,14 +47,16 @@ Notes
 Testing
 -------
 1. test
+```ruby
   bundle exec rake test_app
   rspec spec/feature/alipay_spec.rb
-
+```
 2. manual test
+```ruby
   cd spec/dummy
   rake db:reset
   rake spree_sample:load
-
+```  
 Reference
 ---------
 支付宝常见问题目录与索引——有助于您的问题能够快速解决
