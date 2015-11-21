@@ -29,31 +29,30 @@ Installation
 
   rake db:migrate
 
-dependency
+Dependency
 ----------
-
+  gem spree  https://www.github.com/spree/spree
+  gem alipay https://www.github.com/chloerei/alipay
 
 Notes
 ----------
   For Alipay 担保交易收款 "Escrow Account", use Spree::Gateway::AlipayEscrow
-  this will redirect you to https://tradeexprod.alipay.com/cooperate/createPartnerTradeByBuyer.htm
+  this will redirect you to https://b.alipay.com/order/productDetail.htm?productId=2015110218011847
 
 
-  For Alipay 双功能收款 和 即时到账收, use Spree::Gateway::AlipayDualfun, this
-  will redirect you to https://tradeexprod.alipay.com/cooperate/createTradeByBuyer.htm
+  For Alipay 双功能收款 和 即时到账收, use Spree::Gateway::AlipayDirect, this
+  will redirect you to https://b.alipay.com/order/productDetail.htm?productId=2015110218012942
 
 Testing
 -------
-  #create dummy to test
+1. test
   bundle exec rake test_app
+  rspec spec/feature/alipay_spec.rb
 
-  # manual test
-  # load spree_sample and add your alipay paymethod account manually.
-
+2. manual test
   cd spec/dummy
   rake db:reset
   rake spree_sample:load
-
 
 Reference
 ---------
