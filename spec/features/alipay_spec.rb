@@ -7,41 +7,112 @@ describe "Alipay", :js => true, :type => :feature do
   let!(:product) { FactoryGirl.create(:product, :name => 'iPad') }
 
   before do
-    @gateway = Spree::Gateway::AlipayDualfun.create!({
-      preferred_partner: '2088002627298374',
-      preferred_sign: 'f4y25qc539qakg734vn2jpqq6gmybxoz',
-      name: "Alipay",
-      active: true,
-    })
+
     FactoryGirl.create(:shipping_method)
   end
 
 
-  it "pays for an order successfully" do
-    visit spree.root_path
-    click_link product.name
-    click_button 'Add To Cart'
-    click_button 'Checkout'
-    within("#guest_checkout") do
-      fill_in "Email", :with => "test@example.com"
-      click_button 'Continue'
+  context " service alipay_dualfun" do
+    before do
+      @gateway = Spree::Gateway::AlipayDualfun.create!({
+        preferred_partner: '2088002627298374',
+        preferred_sign: 'f4y25qc539qakg734vn2jpqq6gmybxoz',
+        name: "Alipay",
+        active: true,
+      })
     end
-    fill_in_billing
-    click_button "Save and Continue"
-    # Delivery step doesn't require any action
-    click_button "Save and Continue"
-    find("#paypal_button").click
-    switch_to_paypal_login
-    fill_in "login_email", :with => "pp@spreecommerce.com"
-    fill_in "login_password", :with => "thequickbrownfox"
-    click_button "Log In"
-    find("#continue_abovefold").click   # Because there's TWO continue buttons.
-    page.should have_content("Your order has been processed successfully")
+    it "pay an order successfully" do
+      #order[payments_attributes][][payment_method_id]
+      #order_payments_attributes__payment_method_id_1
+      payment_method_css = "order_payments_attributes__payment_method_id_#{@gateway.id}"
 
-    Spree::Payment.last.source.transaction_id.should_not be_blank
+      add_to_cart
+      fill_in_billing
+
+      click_button "Save and Continue"
+      # Delivery step doesn't require any action
+      click_button "Save and Continue"
+
+      # alipay is first and choosed
+      choose( payment_method_css) #payment_method_css
+      click_button "Save and Continue"
+      # should redirect to alipay casher page
+      expect(page).to have_selector('#orderContainer')
+
+      page.should have_content( product.price.to_s )
+      #Spree::Payment.last.should be_complete
+    end
+
   end
 
+  context "service alipay_direct" do
+    before do
+      raise "plese set ALIPAY_KEY, ALIPAY_PID" unless  ENV['ALIPAY_PID'] && ENV['ALIPAY_KEY']
+      @gateway = Spree::Gateway::AlipayDirect.create!({
+          preferred_partner: ENV['ALIPAY_PID'],
+          preferred_sign: ENV['ALIPAY_KEY'],
+          name: "AlipayDirect",
+          active: true,
+        })
+    end
+    it "pay an order successfully" do
+      #order[payments_attributes][][payment_method_id]
+      #order_payments_attributes__payment_method_id_1
+      payment_method_css = "order_payments_attributes__payment_method_id_#{@gateway.id}"
+
+      add_to_cart
+
+      fill_in_billing
+      click_button "Save and Continue"
+      # Delivery step doesn't require any action
+      click_button "Save and Continue"
+
+      # alipay is first and choosed
+      choose( payment_method_css) #payment_method_css
+      click_button "Save and Continue"
+      # should redirect to alipay casher page
+      page.should have_content( product.price.to_s )
+      #Spree::Payment.last.should be_complete
+    end
+  end
+
+  context "service alipay_wap" do
+    before do
+      raise "plese set ALIPAY_KEY, ALIPAY_PID" unless  ENV['ALIPAY_PID'] && ENV['ALIPAY_KEY']
+      @gateway = Spree::Gateway::AlipayWap.create!({
+        preferred_partner: ENV['ALIPAY_PID'],
+        preferred_sign: ENV['ALIPAY_KEY'],
+        name: "AlipayWap",
+        active: true,
+      })
+    end
+
+    it "pay an order successfully" do
+      #order[payments_attributes][][payment_method_id]
+      #order_payments_attributes__payment_method_id_1
+      payment_method_css = "order_payments_attributes__payment_method_id_#{@gateway.id}"
+
+      add_to_cart
+      fill_in_billing
+
+      click_button "Save and Continue"
+      # Delivery step doesn't require any action
+      click_button "Save and Continue"
+
+      # alipay is first and choosed
+      choose( payment_method_css) #payment_method_css
+      click_button "Save and Continue"
+      # should redirect to alipay casher page
+      expect(page).to have_selector('#logon_phone')
+
+      #Spree::Payment.last.should be_complete
+    end
+
+  end
+
+
   def fill_in_billing
+
     within("#billing") do
       fill_in "First Name", :with => "Test"
       fill_in "Last Name", :with => "User"
@@ -55,11 +126,17 @@ describe "Alipay", :js => true, :type => :feature do
     end
   end
 
-  def switch_to_paypal_login
-    # If you go through a payment once in the sandbox, it remembers your preferred setting.
-    # It defaults to the *wrong* setting for the first time, so we need to have this method.
-    unless page.has_selector?("#login_email")
-      find("#loadLogin").click
+  def add_to_cart
+
+    visit spree.root_path
+    click_link product.name
+    click_button 'Add To Cart'
+    click_button 'Checkout'
+
+    # spree_auth_devise requried
+    within("#guest_checkout") do
+      fill_in "Email", :with => "test@example.com"
+      click_button 'Continue'
     end
   end
 

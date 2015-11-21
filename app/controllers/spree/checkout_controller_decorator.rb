@@ -21,21 +21,21 @@ module Spree
     def aplipay_full_service_url( order, alipay)
 
       #service partner _input_charset out_trade_no subject payment_type logistics_type logistics_fee logistics_payment seller_email price quantity
-      options = { :_input_charset => "utf-8",
+      options = { #:_input_charset => "utf-8",
                   :out_trade_no => order.number,
-                  :price => order.item_total,
-                  :quantity => 1,
-                  :logistics_type=> 'EXPRESS',
-                  :logistics_fee => order.shipments.to_a.sum(&:cost),
-                  :logistics_payment=>'BUYER_PAY',
-                  :seller_id => alipay.preferred_partner,
+                  #:price => order.item_total,
+                  #:quantity => 1,
+                  #:logistics_type=> 'EXPRESS',
+                  #:logistics_fee => order.shipments.to_a.sum(&:cost),
+                  #:logistics_payment=>'BUYER_PAY',
+                  #:seller_id => alipay.preferred_partner,
                   :notify_url => url_for(:only_path => false, :controller=>'alipay_status', :action => 'alipay_notify'),
                   :return_url => url_for(:only_path => false, :controller=>'alipay_status', :action => 'alipay_done'),
                   :body => order.products.collect(&:name).to_s,  #String(400)
-                  :payment_type => 1,
+                  #:payment_type => 1,
                   :subject =>"Order:#{order.number}"
          }
-      alipay.provider.url( options )
+      alipay.provider.url( order, options )
     end
 
     # handle all supported billing_integration

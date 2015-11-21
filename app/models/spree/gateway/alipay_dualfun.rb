@@ -17,26 +17,14 @@ module Spree
       end
 
       def service
-        service_enum.trade_create_by_buyer
+        ServiceEnum.trade_create_by_buyer
       end
 
       def auto_capture?
-        # 
+        #
         return false
       end
-
-      def authorize(amount, source, gateway_options)
-        #ActiveMerchant::Billing::Response.new(true, 'Alipay:success', {})
-      end
-
-      def capture(money, source, options = {})
-        #ActiveMerchant::Billing::Response.new(true, 'Alipay:success', {})
-      end
-
-      def purchase(money, source, options = {})
-        #ActiveMerchant::Billing::Response.new(true, 'Alipay:success', {})
-      end
-
+      
     end
 
 end
