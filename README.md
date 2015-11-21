@@ -3,7 +3,7 @@ spree_alipay
 
 Alipay for Spree
 
-Now support 双功能收款 和 即时到账收款, 担保交易收款。
+Now support 双功能收款 , 即时到账收款 和 担保交易收款。
 
 Sample
 ---------
