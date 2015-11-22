@@ -2,9 +2,9 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_alipay'
-  s.version     = '3.0.0'
-  s.summary     = 'integrate china payment with spree'
-  s.description = 'integrate china payment with spree, like alipay,tenpay'
+  s.version     = '2.4.10'
+  s.summary     = 'integrate alipay with spree'
+  s.description = 'integrate alipay with spree'
   s.required_ruby_version = '>= 2.0.0'
 
   s.author            = 'qinghe'
@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_dependency 'spree_core', '~> 3.0.0'
+  s.add_dependency 'spree_core', '~> 2.4.0'
   s.add_dependency 'alipay', '~> 0.10.0'
   s.add_dependency 'ruby-hmac'
 
