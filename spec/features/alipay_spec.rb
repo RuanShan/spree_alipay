@@ -15,8 +15,8 @@ describe "Alipay", :js => true, :type => :feature do
   context " service alipay_dualfun" do
     before do
       @gateway = Spree::Gateway::AlipayDualfun.create!({
-        preferred_partner: '2088002627298374',
-        preferred_sign: 'f4y25qc539qakg734vn2jpqq6gmybxoz',
+        preferred_alipay_pid: '2088002627298374',
+        preferred_alipay_key: 'f4y25qc539qakg734vn2jpqq6gmybxoz',
         name: "Alipay",
         active: true,
         environment: Rails.env
@@ -50,8 +50,8 @@ describe "Alipay", :js => true, :type => :feature do
     before do
       raise "plese set ALIPAY_KEY, ALIPAY_PID" unless  ENV['ALIPAY_PID'] && ENV['ALIPAY_KEY']
       @gateway = Spree::Gateway::AlipayDirect.create!({
-          preferred_partner: ENV['ALIPAY_PID'],
-          preferred_sign: ENV['ALIPAY_KEY'],
+          preferred_alipay_pid: ENV['ALIPAY_PID'],
+          preferred_alipay_key: ENV['ALIPAY_KEY'],
           name: "AlipayDirect",
           active: true,
           environment: Rails.env
@@ -82,8 +82,8 @@ describe "Alipay", :js => true, :type => :feature do
     before do
       raise "plese set ALIPAY_KEY, ALIPAY_PID" unless  ENV['ALIPAY_PID'] && ENV['ALIPAY_KEY']
       @gateway = Spree::Gateway::AlipayWap.create!({
-        preferred_partner: ENV['ALIPAY_PID'],
-        preferred_sign: ENV['ALIPAY_KEY'],
+        preferred_alipay_pid: ENV['ALIPAY_PID'],
+        preferred_alipay_key: ENV['ALIPAY_KEY'],
         name: "AlipayWap",
         active: true,
         environment: Rails.env

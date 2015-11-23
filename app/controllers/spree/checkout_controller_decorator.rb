@@ -28,7 +28,7 @@ module Spree
                   #:logistics_type=> 'EXPRESS',
                   #:logistics_fee => order.shipments.to_a.sum(&:cost),
                   #:logistics_payment=>'BUYER_PAY',
-                  #:seller_id => alipay.preferred_partner,
+                  #:seller_id => alipay.preferred_alipay_pid,
                   :notify_url => url_for(:only_path => false, :controller=>'alipay_status', :action => 'alipay_notify'),
                   :return_url => url_for(:only_path => false, :controller=>'alipay_status', :action => 'alipay_done'),
                   :body => order.products.collect(&:name).to_s,  #String(400)

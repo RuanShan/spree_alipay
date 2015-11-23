@@ -362,6 +362,3 @@ DEPENDENCIES
   spree_alipay!
   spree_auth_devise!
   sqlite3
-
-BUNDLED WITH
-   1.10.6
