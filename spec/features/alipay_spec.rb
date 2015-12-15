@@ -22,7 +22,7 @@ describe "Alipay", :js => true, :type => :feature do
   end
 
 
-  context " service alipay_dualfun" do
+  context "service alipay_dualfun" do
     before do
       @gateway = Spree::Gateway::AlipayEscrow.create!( alipay_config )
     end
