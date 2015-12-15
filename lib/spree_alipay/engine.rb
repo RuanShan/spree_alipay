@@ -19,8 +19,10 @@ module SpreeAlipay
 
     config.after_initialize do |app|
       app.config.spree.payment_methods += [
-        Spree::Gateway::AlipayDualfun, Spree::Gateway::AlipayEscrow,
-        Spree::Gateway::AlipayDirect, Spree::Gateway::AlipayDirectBankPay,
+        Spree::Gateway::AlipayDualfun,
+        Spree::Gateway::AlipayEscrow,
+        Spree::Gateway::AlipayDirect,
+        Spree::Gateway::AlipayWap
       ]
     end
   end

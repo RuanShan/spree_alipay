@@ -4,22 +4,27 @@ require 'spec_helper'
 #sandbox_areq22@aliyun.com
 #http://openapi.alipaydev.com/gateway.do
 describe "Alipay", :js => true, :type => :feature do
+  let( :alipay_config ) {
+    {
+      preferred_alipay_pid: ENV['ALIPAY_PID'],
+      preferred_alipay_key: ENV['ALIPAY_KEY'],
+      name: "Alipay",
+      active: true,
+      environment: Rails.env
+    }
+  }
+
   let!(:product) { FactoryGirl.create(:product, :name => 'iPad') }
 
   before do
-
+    raise "plese set ALIPAY_KEY, ALIPAY_PID" unless  ENV['ALIPAY_PID'] && ENV['ALIPAY_KEY']
     FactoryGirl.create(:shipping_method)
   end
 
 
   context " service alipay_dualfun" do
     before do
-      @gateway = Spree::Gateway::AlipayDualfun.create!({
-        preferred_partner: '2088002627298374',
-        preferred_sign: 'f4y25qc539qakg734vn2jpqq6gmybxoz',
-        name: "Alipay",
-        active: true,
-      })
+      @gateway = Spree::Gateway::AlipayEscrow.create!( alipay_config )
     end
     it "pay an order successfully" do
       #order[payments_attributes][][payment_method_id]
@@ -39,7 +44,7 @@ describe "Alipay", :js => true, :type => :feature do
       # should redirect to alipay casher page
       expect(page).to have_selector('#orderContainer')
 
-      page.should have_content( product.price.to_s )
+      #page.should have_content( product.price.to_s )
       #Spree::Payment.last.should be_complete
     end
 
@@ -47,13 +52,7 @@ describe "Alipay", :js => true, :type => :feature do
 
   context "service alipay_direct" do
     before do
-      raise "plese set ALIPAY_KEY, ALIPAY_PID" unless  ENV['ALIPAY_PID'] && ENV['ALIPAY_KEY']
-      @gateway = Spree::Gateway::AlipayDirect.create!({
-          preferred_partner: ENV['ALIPAY_PID'],
-          preferred_sign: ENV['ALIPAY_KEY'],
-          name: "AlipayDirect",
-          active: true,
-        })
+      @gateway = Spree::Gateway::AlipayDirect.create!(alipay_config)
     end
     it "pay an order successfully" do
       #order[payments_attributes][][payment_method_id]
@@ -78,13 +77,7 @@ describe "Alipay", :js => true, :type => :feature do
 
   context "service alipay_wap" do
     before do
-      raise "plese set ALIPAY_KEY, ALIPAY_PID" unless  ENV['ALIPAY_PID'] && ENV['ALIPAY_KEY']
-      @gateway = Spree::Gateway::AlipayWap.create!({
-        preferred_partner: ENV['ALIPAY_PID'],
-        preferred_sign: ENV['ALIPAY_KEY'],
-        name: "AlipayWap",
-        active: true,
-      })
+      @gateway = Spree::Gateway::AlipayWap.create!(alipay_config)
     end
 
     it "pay an order successfully" do
