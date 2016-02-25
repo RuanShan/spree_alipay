@@ -58,7 +58,7 @@ module Spree
     def complete_order( order, alipay_parameters )
       unless order.complete?
         alipay_payment = get_alipay_payment( order )
-        alipay_payment.update_attributes response_code, "#{alipay_parameters['trade_no']},#{alipay_parameters['trade_status']}"
+        alipay_payment.update_attribute :response_code, "#{alipay_parameters['trade_no']},#{alipay_parameters['trade_status']}"
         # it require pending_payments to process_payments!
         order.next
       end
