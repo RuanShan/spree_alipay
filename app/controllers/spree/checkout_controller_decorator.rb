@@ -19,6 +19,7 @@ module Spree
     end
 
     def aplipay_full_service_url( order, alipay)
+      product_names = order.products.pluck(:name)
 
       #service partner _input_charset out_trade_no subject payment_type logistics_type logistics_fee logistics_payment seller_email price quantity
       options = { #:_input_charset => "utf-8",
@@ -31,9 +32,9 @@ module Spree
                   #:seller_id => alipay.preferred_alipay_pid,
                   :notify_url => url_for(:only_path => false, :controller=>'alipay_status', :action => 'alipay_notify'),
                   :return_url => url_for(:only_path => false, :controller=>'alipay_status', :action => 'alipay_done'),
-                  :body => order.products.collect(&:name).to_s,  #String(400)
+                  :body => product_names.join(',').truncate(500),  #char 1000
                   #:payment_type => 1,
-                  :subject =>"Order:#{order.number}"
+                  :subject => product_names.join(',').truncate(128) #char 256
          }
       alipay.provider.url( order, options )
     end
