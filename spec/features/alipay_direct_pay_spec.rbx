@@ -4,40 +4,40 @@ require 'spec_helper'
 #sandbox_areq22@aliyun.com
 #http://openapi.alipaydev.com/gateway.do
 describe "Alipay", :js => true, :type => :feature do
+  include_context 'checkout setup'
+
   let!(:product) { FactoryGirl.create(:product, :name => 'iPad') }
+  let(:country) { create(:country, name: 'United States of America', iso_name: 'UNITED STATES') }
+  let(:state) { create(:state, name: 'Alabama', abbr: 'AL', country: country) }
 
   before do
     @gateway = Spree::Gateway::AlipayDualfun.create!({
-      preferred_partner: '2088002627298374',
-      preferred_sign: 'f4y25qc539qakg734vn2jpqq6gmybxoz',
+      preferred_alipay_pid: ENV['ALIPAY_PID'],
+      preferred_alipay_key: ENV['ALIPAY_KEY'],
       name: "Alipay",
       active: true,
     })
-    FactoryGirl.create(:shipping_method)
   end
 
 
   it "pays for an order successfully" do
-
-    payment_method_css = "#order_payments_attributes__payment_method_id_#{@gateway.id}"
-
 
     visit spree.root_path
     click_link product.name
     click_button 'Add To Cart'
     click_button 'Checkout'
 
-    #within("#guest_checkout") do
-    #  fill_in "Email", :with => "test@example.com"
-    #  click_button 'Continue'
-    #end
+    within("#guest_checkout") do
+      fill_in "Email", :with => "test@example.com"
+      click_button 'Continue'
+    end
 
     fill_in_billing
     click_button "Save and Continue"
     # Delivery step doesn't require any action
     click_button "Save and Continue"
 
-    choose payment_method_css
+    choose( @gateway.name)
     click_button "Save and Continue"
     # should redirect to  pingpp mock page
     find("#btn_pay").click
@@ -45,18 +45,16 @@ describe "Alipay", :js => true, :type => :feature do
     #Spree::Payment.last.should be_complete
   end
 
+  # copy from spree/frontend/spec/checkout_spec
   def fill_in_billing
-    within("#billing") do
-      fill_in "First Name", :with => "Test"
-      fill_in "Last Name", :with => "User"
-      fill_in "Street Address", :with => "1 User Lane"
-      # City, State and ZIP must all match for PayPal to be happy
-      fill_in "City", :with => "Adamsville"
-      select "United States of America", :from => "order_bill_address_attributes_country_id"
-      select "Alabama", :from => "order_bill_address_attributes_state_id"
-      fill_in "Zip", :with => "35005"
-      fill_in "Phone", :with => "555-AME-RICA"
-    end
+    address = "order_bill_address_attributes"
+    fill_in "#{address}_firstname", with: "Ryan"
+    fill_in "#{address}_lastname", with: "Bigg"
+    fill_in "#{address}_address1", with: "143 Swan Street"
+    fill_in "#{address}_city", with: "Richmond"
+    select country.name, from: "#{address}_country_id"
+    select state.name, from: "#{address}_state_id"
+    fill_in "#{address}_zipcode", with: "12345"
+    fill_in "#{address}_phone", with: "(555) 555-5555"
   end
-
 end
