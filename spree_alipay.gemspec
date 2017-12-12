@@ -16,7 +16,8 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_dependency 'spree_core', '~> 3.1.0.rc3'
+  spree_version = '>= 3.1.0', '< 4.0'
+
   s.add_dependency 'alipay', '~> 0.10.0'
   s.add_dependency 'ruby-hmac'
 
