@@ -1,7 +1,7 @@
 #encoding: utf-8
 module Spree
   CheckoutController.class_eval do
-    before_filter :checkout_hook, :only => [:update]
+    before_action :checkout_hook, :only => [:update]
 
     private
 
